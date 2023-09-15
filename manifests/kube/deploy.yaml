@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test1
+  namespace: fika
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test1
+  namespace: fika
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test1
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: test1
+        version: v1
+    spec:
+      serviceAccountName: test1
+      containers:
+      - image: docker.io/asayahtest/test1
+        imagePullPolicy: IfNotPresent
+        name: test1
+        ports:
+        - containerPort: 8080
